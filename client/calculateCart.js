@@ -10,11 +10,20 @@ let warenkorb = [
 ];
 
 Request.post({
-	url: 'http://localhost:3000/discount/',
-	json: {
-		cart: warenkorb
-	}
-}, discountBerechnet);
+	url: 'http://localhost:3000/authenticate/',
+	json: { username: 'Dominik', password: 'password' }
+}, tokenErhalten);
+
+function tokenErhalten(error, response, body) {
+	securityToken = body;
+	Request.post({
+		url: 'http://localhost:3000/discount/',
+		json: {
+			cart: warenkorb,
+			token: securityToken
+		}
+	}, discountBerechnet);
+}
 
 function discountBerechnet(error, response, body) {
 	console.log("Summe: " + body.total);
@@ -24,7 +33,8 @@ function discountBerechnet(error, response, body) {
 	Request.post({
 		url: 'http://localhost:3000/shippingCost/',
 		json: {
-			cart: warenkorb
+			cart: warenkorb,
+			token: securityToken
 		}
 	}, shippingCostBerechnet);
 }
