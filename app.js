@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const index = require('./routes/index');
 const shippingCost = require('./routes/shippingCost'); //G: shippingCost hinzugefügt
 const discount = require('./routes/discount'); //G: discount hinzugefügt
+const authenticate = require('./routes/authenticate').router; //G: authenticate hinzugefügt
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/shippingCost', shippingCost); //G: shippingCost hinzugefügt
 app.use('/discount', discount); //G: discount hinzugefügt
+app.use('/authenticate', authenticate); //G: authenticate hinzugefügt
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
