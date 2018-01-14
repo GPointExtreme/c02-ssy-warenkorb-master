@@ -9,36 +9,53 @@ let warenkorb = [
     { "name": "Strümpfe", "Menge": 2, "Preis": 4.90, "Gewicht": 70 }
 ];
 
-Request.post({
-	url: 'http://localhost:3000/authenticate/',
-	json: { username: 'Dominik', password: 'password' }
-}, tokenErhalten);
+Request.get('http://localhost:3000/routing/authenticate', authServiceErhalten);
+
+function authServiceErhalten(error, response, body) {
+	let authUrl = JSON.parse(body);
+	
+	Request.post({
+        url: authUrl,
+        json: {username: 'Dominik', password: 'password'}
+    }, tokenErhalten);
+}
 
 function tokenErhalten(error, response, body) {
 	securityToken = body;
-	Request.post({
-		url: 'http://localhost:3000/discount/',
-		json: {
-			cart: warenkorb,
-			token: securityToken
-		}
-	}, discountBerechnet);
+    Request.get('http://localhost:3000/routing/discount', discountServiceErhalten);
+}
+
+function discountServiceErhalten(error, response, body) {
+	let discountUrl = JSON.parse(body);
+    Request.post({
+        url: discountUrl,
+        json: {
+            cart: warenkorb,
+            token: securityToken
+        }
+    }, discountBerechnet);
 }
 
 function discountBerechnet(error, response, body) {
-	console.log("Summe: " + body.total);
-	console.log("Discount: " + body.discount);
-	console.log("Gesamtsumme: " + body.final + "\n");
-	
-	Request.post({
-		url: 'http://localhost:3000/shippingCost/',
-		json: {
-			cart: warenkorb,
-			token: securityToken
-		}
-	}, shippingCostBerechnet);
+    console.log("Summe: " + body.total);
+    console.log("Discount: " + body.discount);
+    console.log("Gesamtsumme: " + body.final + "\n");
+
+    Request.get('http://localhost:3000/routing/shippingCost', shippingCostServiceErhalten);
+}
+
+
+function shippingCostServiceErhalten(error, response, body) {
+    let shippingCostUrl = JSON.parse(body);
+    Request.post({
+        url: shippingCostUrl,
+        json: {
+            cart: warenkorb,
+            token: securityToken
+        }
+    }, shippingCostBerechnet);
 }
 
 function shippingCostBerechnet(error, response, body) {
-	console.log("Versandkosten: " + body);
+    console.log("Versandkosten: " + body);
 }
