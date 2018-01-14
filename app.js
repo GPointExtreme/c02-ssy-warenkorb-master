@@ -9,6 +9,7 @@ const index = require('./routes/index');
 const shippingCost = require('./routes/shippingCost'); //G: shippingCost hinzugefügt
 const discount = require('./routes/discount'); //G: discount hinzugefügt
 const authenticate = require('./routes/authenticate').router; //G: authenticate hinzugefügt
+const routing = require('./routes/routing'); //G: routing hinzugefügt
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use('/', index);
 app.use('/shippingCost', shippingCost); //G: shippingCost hinzugefügt
 app.use('/discount', discount); //G: discount hinzugefügt
 app.use('/authenticate', authenticate); //G: authenticate hinzugefügt
+app.use('/routing', routing); //G: routing hinzugefügt
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
