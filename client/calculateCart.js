@@ -8,3 +8,27 @@ let warenkorb = [
     { "name": "Mütze",  "Menge": 1, "Preis": 14.90, "Gewicht": 120 },
     { "name": "Strümpfe", "Menge": 2, "Preis": 4.90, "Gewicht": 70 }
 ];
+
+Request.post({
+	url: 'http://localhost:3000/discount/',
+	json: {
+		cart: warenkorb
+	}
+}, discountBerechnet);
+
+function discountBerechnet(error, response, body) {
+	console.log("Summe: " + body.total);
+	console.log("Discount: " + body.discount);
+	console.log("Gesamtsumme: " + body.final + "\n");
+	
+	Request.post({
+		url: 'http://localhost:3000/shippingCost/',
+		json: {
+			cart: warenkorb
+		}
+	}, shippingCostBerechnet);
+}
+
+function shippingCostBerechnet(error, response, body) {
+	console.log("Versandkosten: " + body);
+}
