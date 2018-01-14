@@ -1,6 +1,14 @@
+const Request = require('request');
 const express = require('express');
 const router = express.Router();
 const checkAuth = require('./authenticate').checkAuth;
+
+Request.post({
+    url: 'http://localhost:3000/routing/',
+    json: { name: 'shippingCost',
+        url: 'http://localhost:3000/shippingCost/'
+    }
+});
 
 router.post("/", calculateShippingCost);
 

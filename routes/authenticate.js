@@ -1,5 +1,13 @@
+const Request = require('request');
 const express = require('express');
 const router = express.Router();
+
+Request.post({
+    url: 'http://localhost:3000/routing/',
+    json: { name: 'authenticate',
+            url: 'http://localhost:3000/authenticate/'
+    }
+});
 
 router.post("/", authenticate);
 

@@ -1,6 +1,14 @@
+const Request = require('request');
 const express = require('express');
 const router = express.Router();
 const checkAuth = require('./authenticate').checkAuth;
+
+Request.post({
+    url: 'http://localhost:3000/routing/',
+    json: { name: 'discount',
+        url: 'http://localhost:3000/discount/'
+    }
+});
 
 router.post("/", calculateDiscount);
 
